@@ -1,6 +1,4 @@
 @echo off
-title Spinning up Docker-Compose
-docker-compose up -d --pull --force-recreate
 title Loading Python environment
 echo Setting up Python environment
 python -m venv pythonlocalai

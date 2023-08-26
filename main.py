@@ -14,6 +14,46 @@ new_file = 'lunademo.bin'
 folder_path = "models"
 
 if os.name == 'nt':  # for Windows
+    os.system('title Docker')
+    os.system('cls')
+else:  # for Linux and macOS
+    os.system('clear')
+    
+print("Do you have the LocalAI docker already set up?")
+user_input_type = str(input("Yes or No: "))
+user_input_type = user_input_type.lower()
+
+if user_input_type == "yes":
+    pass
+else
+    if os.name == 'nt':  # for Windows
+        os.system('title Setting up Docker-Compose File')
+        os.system('cls')
+    else:  # for Linux and macOS
+        os.system('clear')
+    
+    print("Would you like to run this docker with GPU or CPU? (GPU is CUDA only for now)")
+    user_input_type = str(input("CPU or GPU: "))
+    user_input_type = user_input_type.lower()
+
+    if user_input_type == "gpu":
+        print("Alright setting up docker-compose with GPU - Cuda")
+        current_file = 'GPU.yaml'
+    elif user_input_type == "cuda":
+        print("Alright setting up docker-compose with GPU - Cuda")
+        current_file = 'GPU.yaml'
+    elif user_input_type == "cpu":
+        print("Alright setting up docker-compose with CPU")
+        current_file = 'CPU.yaml'
+    else
+        print("Fallingback to setting up docker-compose with CPU")
+        current_file = 'CPU.yaml'
+
+    os.rename(current_file, "docker-compose.yaml")
+    os.system('docker-compose up -d --pull always')
+
+
+if os.name == 'nt':  # for Windows
     os.system('title Downloading Model')
     os.system('cls')
 else:  # for Linux and macOS
@@ -64,6 +104,9 @@ else:
     file_path = os.path.join(folder_path, os.path.basename(file_url))
     urllib.request.urlretrieve(file_url, file_path)
     os.rename(current_file, new_file)
+
+print("If LocalAI is done building in the docker hit enter")
+user_input_type = str(input(""))
 
 os.system('docker-compose restart')
 

@@ -1,6 +1,4 @@
 #!/bin/bash
-echo "Setting up the docker-compose for you"
-docker-compose up -d --pull --force-recreate
 echo "Setting up Python environment"
 python3 -m venv pythonlocalai
 source pythonlocalai/bin/activate
