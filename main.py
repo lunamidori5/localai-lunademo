@@ -114,14 +114,13 @@ session_inside = [{"role": "system", "content": "I am running normally!"}]
 
 response = "Welcome to LocalAI demo by Luna Midori, To get started just type something in!"
 
-loop_number = 0
-completion_text = ''
-collected_messages = []
-
 while True:
     print(response)
     user_input = input("Chat with LoaclAI: ")
     response = ""
+    loop_number = 0
+    completion_text = ''
+    collected_messages = []
     
     message_gpt = [{"role": "system", "content": system_text}, *session_inside,
                     {"role": "user", "content": f"Type a short reply to this question: {user_input}:"}, ]
