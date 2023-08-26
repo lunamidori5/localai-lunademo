@@ -23,9 +23,7 @@ print("Do you have the LocalAI docker already set up?")
 user_input_type = str(input("Yes or No: "))
 user_input_type = user_input_type.lower()
 
-if user_input_type == "yes":
-    int_numbaer = 1+1
-else
+if user_input_type != "yes":
     if os.name == 'nt':  # for Windows
         os.system('title Setting up Docker-Compose File')
         os.system('cls')
