@@ -114,6 +114,9 @@ session_inside = [{"role": "system", "content": "I am running normally!"}]
 
 response = "Welcome to LocalAI demo by Luna Midori, To get started just type something in!"
 
+with open("chatlog.log", "w") as file:
+            file.write(response)
+
 while True:
     print(response)
     user_input = input("Chat with LocalAI: ")
@@ -171,6 +174,14 @@ while True:
         ],
         max_tokens=3000
     )
+
+    with open("chatlog.log", "r") as file:
+            existing_content = file.read()
+    
+    updated_content = existing_content + "\n" + user_input + "\n" + response
+
+    with open("chatlog.log", "w") as file:
+            file.write(updated_content)
     
     textout = str(text_out_unmoded.choices[0].message.content)
     
