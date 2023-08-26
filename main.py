@@ -116,7 +116,7 @@ response = "Welcome to LocalAI demo by Luna Midori, To get started just type som
 
 while True:
     print(response)
-    user_input = input("Chat with LoaclAI: ")
+    user_input = input("Chat with LocalAI: ")
     response = ""
     loop_number = 0
     completion_text = ''
