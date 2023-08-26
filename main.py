@@ -43,7 +43,7 @@ if user_input_type != "yes":
     elif user_input_type == "cpu":
         print("Alright setting up docker-compose with CPU")
         current_file = 'CPU.yaml'
-    else
+    else:
         print("Fallingback to setting up docker-compose with CPU")
         current_file = 'CPU.yaml'
 
