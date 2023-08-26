@@ -152,7 +152,7 @@ while True:
                 os.system('cls')
             else:  # for Linux and macOS
                 os.system('clear')
-            print("Streaming message: "str(sudo_message))
+            print("Streaming message: " + str(sudo_message))
             loop_number = 0
     full_reply_content = ''.join([m.get('content', '') for m in collected_messages])
     full_reply_content = random_number.remove_non_printable_chars(full_reply_content)
