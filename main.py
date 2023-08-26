@@ -50,7 +50,6 @@ if user_input_type != "yes":
     os.rename(current_file, "docker-compose.yaml")
     os.system('docker-compose up -d --pull always')
 
-
 if os.name == 'nt':  # for Windows
     os.system('title Downloading Model')
     os.system('cls')
