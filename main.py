@@ -85,12 +85,6 @@ if user_input_model_level == 0:
     print("Downloading 7b Model...")
     file_url = "https://huggingface.co/TheBloke/WizardLM-7B-uncensored-GGML/resolve/main/WizardLM-7B-uncensored.ggmlv3.q2_K.bin"
     current_file = 'WizardLM-7B-uncensored.ggmlv3.q2_K.bin'
-
-if os.name == 'nt':  # for Windows
-    os.system('title Downloading Model')
-    os.system('cls')
-else:  # for Linux and macOS
-    os.system('clear')
     
 file_path = os.path.join(folder_path, file_name)
 
@@ -119,9 +113,14 @@ session_inside = [{"role": "system", "content": "I am running normally!"}]
 
 response = "Welcome to LocalAI demo by Luna Midori, To get started just type something in!"
 
+loop_number = 0
+completion_text = ''
+collected_messages = []
+
 while True:
     print(response)
     user_input = input("Chat with LoaclAI: ")
+    response = ""
     
     message_gpt = [{"role": "system", "content": system_text}, *session_inside,
                     {"role": "user", "content": f"Type a short reply to this question: {user_input}:"}, ]
@@ -134,7 +133,7 @@ while True:
                     repeat_penalty=0.5,
                     messages=messages,
                     temperature=0.55,
-                    max_tokens=1800,
+                    max_tokens=8000,
                     stream=True,
                     seed=random.randint(100000, 999999),
                     top_p=0.75
@@ -146,7 +145,7 @@ while True:
             collected_messages.append(event_text)
         else:
             break  # exit the loop if delta is empty
-        if loop_number > 4:
+        if loop_number > 1:
             sudo_message = ''.join([m.get('content', '') for m in collected_messages])
             if os.name == 'nt':  # for Windows
                 os.system('cls')
@@ -155,13 +154,7 @@ while True:
             print("Streaming message: " + str(sudo_message))
             loop_number = 0
     full_reply_content = ''.join([m.get('content', '') for m in collected_messages])
-    full_reply_content = random_number.remove_non_printable_chars(full_reply_content)
     response = full_reply_content
-    
-    if os.name == 'nt':  # for Windows
-        os.system('cls')
-    else:  # for Linux and macOS
-        os.system('clear')
     
     session_inside.append({"role": "user", "content": f"(user) says {user_input}"})
     session_inside.append({"role": "assistant", "content": f"{response}"})
@@ -176,7 +169,7 @@ while True:
             {"role": "user",
              "content": f"Summarize this memory: {str(session_inside)} "},
         ],
-        max_tokens=1500
+        max_tokens=3000
     )
     
     textout = str(text_out_unmoded.choices[0].message.content)
