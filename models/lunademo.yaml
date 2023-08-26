@@ -1,0 +1,16 @@
+backend: llama-stable
+context_size: 2000
+batch: 512
+name: lunademo
+parameters:
+  model: lunademo.bin
+  temperature: 0.2
+  top_k: 40
+  top_p: 0.65
+roles:
+  assistant: '### Response:'
+  system: '### System:'
+  user: '### Instruction:'
+template:
+  chat: lunademo-chat
+  completion: lunademo-completion
