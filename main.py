@@ -24,7 +24,7 @@ user_input_type = str(input("Yes or No: "))
 user_input_type = user_input_type.lower()
 
 if user_input_type == "yes":
-    pass
+    int_numbaer = 1+1
 else
     if os.name == 'nt':  # for Windows
         os.system('title Setting up Docker-Compose File')
