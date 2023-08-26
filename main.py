@@ -92,10 +92,11 @@ if os.path.isfile(file_path):
     print("File already exists in the folder.")
 else:
     print("File does not exist in the folder. Proceed with downloading.")
-    print("Downloading the WizardLM Model... Please wait...")
-    file_path = os.path.join(folder_path, os.path.basename(file_url))
+    #file_path = os.path.join(folder_path, os.path.basename(file_url))
+    file_path = os.path.join(folder_path, os.path.basename(new_file))
     urllib.request.urlretrieve(file_url, file_path)
-    os.rename(current_file, new_file)
+    time.sleep(1.2)
+    #os.rename(current_file, new_file)
 
 print("If LocalAI is done building in the docker hit enter")
 user_input_type = str(input(""))
