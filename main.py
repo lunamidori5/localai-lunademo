@@ -135,13 +135,35 @@ while True:
                     messages=messages,
                     temperature=0.55,
                     max_tokens=1800,
-                    stream=False,
+                    stream=True,
                     seed=random.randint(100000, 999999),
                     top_p=0.75
     )
-    response = str(completion2.choices[0].message.content)
+    for chunk in completion2:
+        loop_number = loop_number + 1
+        if 'delta' in chunk['choices'][0] and chunk['choices'][0]['delta']:
+            event_text = chunk['choices'][0]['delta']
+            collected_messages.append(event_text)
+        else:
+            break  # exit the loop if delta is empty
+        if loop_number > 4:
+            sudo_message = ''.join([m.get('content', '') for m in collected_messages])
+            if os.name == 'nt':  # for Windows
+                os.system('cls')
+            else:  # for Linux and macOS
+                os.system('clear')
+            print("Streaming message: "str(sudo_message))
+            loop_number = 0
+    full_reply_content = ''.join([m.get('content', '') for m in collected_messages])
+    full_reply_content = random_number.remove_non_printable_chars(full_reply_content)
+    response = full_reply_content
     
-    session_inside.append({"role": "user", "content": f"user) says {user_input}"})
+    if os.name == 'nt':  # for Windows
+        os.system('cls')
+    else:  # for Linux and macOS
+        os.system('clear')
+    
+    session_inside.append({"role": "user", "content": f"(user) says {user_input}"})
     session_inside.append({"role": "assistant", "content": f"{response}"})
     
     text_out_unmoded = openai.ChatCompletion.create(
