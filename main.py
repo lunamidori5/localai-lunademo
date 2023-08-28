@@ -113,7 +113,7 @@ if user_input_type != "yes":
     os.rename("docker-compose.yaml", current_file_docker)
 
 if os.name == 'nt':  # for Windows
-    os.system('title Welcome to LocalAI - Chat Demo')
+    os.system('title Waiting on LocalAI docker')
     os.system('cls')
 else:  # for Linux and macOS
     os.system('clear')
