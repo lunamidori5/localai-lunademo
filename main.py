@@ -58,12 +58,6 @@ if user_input_type != "yes":
         os.system('chmod 777 docker-setup.sh')
         os.system('gnome-terminal -- ./docker-setup.sh')
 
-    print("Alright, I opened a new window that is setting up the docker-compose right now. We will need to wait a few more moments before we can move on!")
-    print("We will need to wait a few more moments before we can move on!")
-    print("Waiting for a for more moments so that the docker can get fully set up and ready...")
-    time.sleep(120)
-    os.rename("docker-compose.yaml", current_file_docker)
-
 if os.name == 'nt':  # for Windows
     os.system('title Downloading Model')
     os.system('cls')
@@ -110,6 +104,19 @@ else:
     urllib.request.urlretrieve(file_url, file_path)
     time.sleep(1.2)
     #os.rename(current_file, new_file)
+
+if user_input_type != "yes":
+    print("Alright, I opened a new window that is setting up the docker-compose right now.")
+    print("We will need to wait a few more moments before we can move on!")
+    print("Waiting for a for more moments so that the docker can get fully set up and ready...")
+    time.sleep(300)
+    os.rename("docker-compose.yaml", current_file_docker)
+
+if os.name == 'nt':  # for Windows
+    os.system('title Welcome to LocalAI - Chat Demo')
+    os.system('cls')
+else:  # for Linux and macOS
+    os.system('clear')
 
 print("If LocalAI is done building in the docker hit enter (DO NOT HIT ENTER IF YOU DO NOT SEE THE READY SCREEN IN LOCALAI)")
 user_input_type = str(input(""))
