@@ -52,11 +52,10 @@ if user_input_type != "yes":
         os.system('title Setting up Windows Docker-Compose File')
         os.system('docker-compose up -d --pull --force-recreate')
     else:  # for Linux and macOS
-        print("Please open a new terminal window and run the code below")
-        print("sudo docker-compose up --pull --force-recreate")
+        os.system('gnome-terminal -- echo "sudo docker-compose up --pull --force-recreate" > docker-setup.sh')
+        os.system('gnome-terminal -- sh docker-setup.sh')
         print("Waiting for 45s...")
         time.sleep(45)
-        #os.system('gnome-terminal -- sudo docker-compose up --pull --force-recreate')
     time.sleep(15)
     os.rename("docker-compose.yaml", current_file_docker)
 
