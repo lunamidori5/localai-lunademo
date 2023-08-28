@@ -17,7 +17,7 @@ sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt install python3.11 -y
 sudo apt install python3.10-venv -y
 sudo apt-get install pip -y
-sudo apt install docker-compose
+sudo apt install docker-compose -y
 
 echo "Setting up Python environment"
 python3 -m venv pythonlocalai
