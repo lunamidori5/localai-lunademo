@@ -3,9 +3,6 @@ version: '3.6'
 services:
   api:
     image: quay.io/go-skynet/local-ai:master
-    build:
-      context: .
-      dockerfile: Dockerfile
     tty: true # enable colorized logs
     restart: always # should this be on-failure ?
     ports:

@@ -50,10 +50,11 @@ if user_input_type != "yes":
     os.rename(current_file, "docker-compose.yaml")
     if os.name == 'nt':  # for Windows
         os.system('title Setting up Windows Docker-Compose File')
-        os.system('docker-compose up -d --pull always')
+        os.system('docker-compose up -d --pull --force-recreate')
     else:  # for Linux and macOS
-        os.system('sudo docker-compose up -d --pull always')
-    os.rename("docker-compose.yaml", current_file)
+        os.system('gnome-terminal -- sudo docker-compose up --pull --force-recreate')
+    time.sleep(15)
+    
 
 if os.name == 'nt':  # for Windows
     os.system('title Downloading Model')
@@ -105,6 +106,7 @@ else:
 print("If LocalAI is done building in the docker hit enter")
 user_input_type = str(input(""))
 
+os.rename("docker-compose.yaml", current_file)
 os.system('docker-compose restart')
 
 if os.name == 'nt':  # for Windows
