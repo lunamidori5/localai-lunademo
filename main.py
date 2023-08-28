@@ -50,14 +50,18 @@ if user_input_type != "yes":
     os.rename(current_file_docker, "docker-compose.yaml")
     if os.name == 'nt':  # for Windows
         os.system('title Setting up Windows Docker-Compose File')
-        os.system('docker-compose up -d --pull --force-recreate')
+        os.system('docker-compose down --rmi all')
+        os.system('start docker-compose up --pull --force-recreate')
     else:  # for Linux and macOS
-        os.system('echo "sudo docker-compose up" > docker-setup.sh')
+        os.system('echo "sudo docker-compose down" > docker-setup.sh')
+        os.system('echo "sudo docker-compose up" >> docker-setup.sh')
         os.system('chmod 777 docker-setup.sh')
-        os.system('gnome-terminal -- sh docker-setup.sh')
-        print("Waiting for 45s...")
-        time.sleep(45)
-    time.sleep(15)
+        os.system('gnome-terminal -- ./docker-setup.sh')
+
+    print("Alright, I opened a new window that is setting up the docker-compose right now. We will need to wait a few more moments before we can move on!")
+    print("We will need to wait a few more moments before we can move on!")
+    print("Waiting for a for more moments so that the docker can get fully set up and ready...")
+    time.sleep(120)
     os.rename("docker-compose.yaml", current_file_docker)
 
 if os.name == 'nt':  # for Windows
@@ -107,7 +111,7 @@ else:
     time.sleep(1.2)
     #os.rename(current_file, new_file)
 
-print("If LocalAI is done building in the docker hit enter")
+print("If LocalAI is done building in the docker hit enter (DO NOT HIT ENTER IF YOU DO NOT SEE THE READY SCREEN IN LOCALAI)")
 user_input_type = str(input(""))
 os.system('docker-compose restart')
 
