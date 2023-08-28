@@ -52,7 +52,7 @@ if user_input_type != "yes":
         os.system('title Setting up Windows Docker-Compose File')
         os.system('docker-compose up -d --pull --force-recreate')
     else:  # for Linux and macOS
-        os.system('echo "sudo docker-compose up --pull --force-recreate" > docker-setup.sh')
+        os.system('echo "sudo docker-compose up" > docker-setup.sh')
         os.system('chmod 777 docker-setup.sh')
         os.system('gnome-terminal -- sh docker-setup.sh')
         print("Waiting for 45s...")
