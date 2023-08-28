@@ -52,7 +52,7 @@ if user_input_type != "yes":
         os.system('title Setting up Windows Docker-Compose File')
         os.system('docker-compose up -d --pull --force-recreate')
     else:  # for Linux and macOS
-        os.system('gnome-terminal -- sudo docker-compose up --pull --force-recreate')
+        os.system('gnome-terminal -- sh -C sudo docker-compose up --pull --force-recreate')
     time.sleep(15)
     
 
