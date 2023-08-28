@@ -48,7 +48,11 @@ if user_input_type != "yes":
         current_file = 'CPU.yaml'
 
     os.rename(current_file, "docker-compose.yaml")
-    os.system('docker-compose up -d --pull always')
+    if os.name == 'nt':  # for Windows
+        os.system('title Setting up Windows Docker-Compose File')
+        os.system('docker-compose up -d --pull always')
+    else:  # for Linux and macOS
+        os.system('sudo docker-compose up -d --pull always')
     os.rename("docker-compose.yaml", current_file)
 
 if os.name == 'nt':  # for Windows

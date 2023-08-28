@@ -11,13 +11,9 @@ echo \
 "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
 sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo apt install software-properties-common -y
 sudo add-apt-repository ppa:deadsnakes/ppa
-sudo apt install python3.11 -y
-sudo apt install python3.10-venv -y
-sudo apt-get install pip -y
-sudo apt install docker-compose -y
+sudo apt install python3.11 python3.10-venv pip docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-compose -y
 
 echo "Setting up Python environment"
 python3 -m venv pythonlocalai
