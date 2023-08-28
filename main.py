@@ -36,25 +36,29 @@ if user_input_type != "yes":
 
     if user_input_type == "gpu":
         print("Alright setting up docker-compose with GPU - Cuda")
-        current_file = 'GPU.yaml'
+        current_file_docker = 'GPU.yaml'
     elif user_input_type == "cuda":
         print("Alright setting up docker-compose with GPU - Cuda")
-        current_file = 'GPU.yaml'
+        current_file_docker = 'GPU.yaml'
     elif user_input_type == "cpu":
         print("Alright setting up docker-compose with CPU")
-        current_file = 'CPU.yaml'
+        current_file_docker = 'CPU.yaml'
     else:
         print("Fallingback to setting up docker-compose with CPU")
-        current_file = 'CPU.yaml'
+        current_file_docker = 'CPU.yaml'
 
-    os.rename(current_file, "docker-compose.yaml")
+    os.rename(current_file_docker, "docker-compose.yaml")
     if os.name == 'nt':  # for Windows
         os.system('title Setting up Windows Docker-Compose File')
         os.system('docker-compose up -d --pull --force-recreate')
     else:  # for Linux and macOS
-        os.system('gnome-terminal -- sh -C sudo docker-compose up --pull --force-recreate')
+        print("Please open a new terminal window and run the code below")
+        print("sudo docker-compose up --pull --force-recreate")
+        print("Waiting for 45s...")
+        time.sleep(45)
+        #os.system('gnome-terminal -- sudo docker-compose up --pull --force-recreate')
     time.sleep(15)
-    
+    os.rename("docker-compose.yaml", current_file_docker)
 
 if os.name == 'nt':  # for Windows
     os.system('title Downloading Model')
@@ -105,8 +109,6 @@ else:
 
 print("If LocalAI is done building in the docker hit enter")
 user_input_type = str(input(""))
-
-os.rename("docker-compose.yaml", current_file)
 os.system('docker-compose restart')
 
 if os.name == 'nt':  # for Windows
