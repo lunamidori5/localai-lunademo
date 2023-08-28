@@ -19,7 +19,7 @@ if [ "$os" == "Linux" ]; then
     sudo apt install software-properties-common -y
     sudo add-apt-repository ppa:deadsnakes/ppa
     sudo apt install python3.11
-    sudo apt-get install virtualenv -y
+    sudo apt install python3.10-venv
     sudo apt-get install pip -y
 
   elif [ "$dist" == "Linux Mint" ]; then
@@ -28,7 +28,7 @@ if [ "$os" == "Linux" ]; then
     echo "Unknown Linux distribution."
   fi
 else
-  echo "Unknown operating system."
+  echo "Unknown operating system. - $dist"
 fi
 
 echo "Setting up Python environment"
