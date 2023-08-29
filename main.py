@@ -36,26 +36,35 @@ if user_input_type != "yes":
 
     if user_input_type == "gpu":
         print("Alright setting up docker-compose with GPU - Cuda")
-        current_file = 'GPU.yaml'
+        current_file_docker = 'GPU.yaml'
     elif user_input_type == "cuda":
         print("Alright setting up docker-compose with GPU - Cuda")
-        current_file = 'GPU.yaml'
+        current_file_docker = 'GPU.yaml'
     elif user_input_type == "cpu":
         print("Alright setting up docker-compose with CPU")
-        current_file = 'CPU.yaml'
+        current_file_docker = 'CPU.yaml'
     else:
         print("Fallingback to setting up docker-compose with CPU")
-        current_file = 'CPU.yaml'
+        current_file_docker = 'CPU.yaml'
 
-    os.rename(current_file, "docker-compose.yaml")
-    os.system('docker-compose up -d --pull always')
-    os.rename("docker-compose.yaml", current_file)
+    os.rename(current_file_docker, "docker-compose.yaml")
+    if os.name == 'nt':  # for Windows
+        os.system('title Setting up Windows Docker-Compose File')
+        os.system('docker-compose down --rmi all')
+        os.system('start docker-compose up --pull --force-recreate')
+    else:  # for Linux and macOS
+        os.system('echo "sudo docker-compose down" > docker-setup.sh')
+        os.system('echo "sudo docker-compose up" >> docker-setup.sh')
+        os.system('chmod 777 docker-setup.sh')
+        os.system('gnome-terminal -- ./docker-setup.sh')
 
 if os.name == 'nt':  # for Windows
     os.system('title Downloading Model')
     os.system('cls')
 else:  # for Linux and macOS
     os.system('clear')
+    print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up'")
+    time.sleep(25)
     
 print("Please pick a model based on computer speed starting at 0 for low ram to 3 being high ram")
 user_input_model_level = int(input("Model Ram Level: "))
@@ -98,9 +107,21 @@ else:
     time.sleep(1.2)
     #os.rename(current_file, new_file)
 
-print("If LocalAI is done building in the docker hit enter")
-user_input_type = str(input(""))
+if user_input_type != "yes":
+    print("Alright, I opened a new window that is setting up the docker-compose right now.")
+    print("We will need to wait a few more moments before we can move on!")
+    print("Waiting for a for more moments so that the docker can get fully set up and ready...")
+    time.sleep(300)
+    os.rename("docker-compose.yaml", current_file_docker)
 
+if os.name == 'nt':  # for Windows
+    os.system('title Waiting on LocalAI docker')
+    os.system('cls')
+else:  # for Linux and macOS
+    os.system('clear')
+
+print("If LocalAI is done building in the docker hit enter (DO NOT HIT ENTER IF YOU DO NOT SEE THE READY SCREEN IN LOCALAI)")
+user_input_type = str(input(""))
 os.system('docker-compose restart')
 
 if os.name == 'nt':  # for Windows
