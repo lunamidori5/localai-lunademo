@@ -15,11 +15,4 @@ sudo apt install software-properties-common -y
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt install python3.11 python3.10-venv pip docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-compose -y
 
-echo "Setting up Python environment"
-python3 -m venv pythonlocalai
-source pythonlocalai/bin/activate
-
-echo "Installing Python Imports for LocalAi Demo Bot"
-pip install openai
-pip install langchain
-python main.py
+./Setup_Linux.sh

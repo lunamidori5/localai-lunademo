@@ -63,6 +63,8 @@ if os.name == 'nt':  # for Windows
     os.system('cls')
 else:  # for Linux and macOS
     os.system('clear')
+    print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up'")
+    time.sleep(25)
     
 print("Please pick a model based on computer speed starting at 0 for low ram to 3 being high ram")
 user_input_model_level = int(input("Model Ram Level: "))
