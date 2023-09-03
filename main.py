@@ -66,8 +66,8 @@ else:  # for Linux and macOS
     print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up'")
     time.sleep(25)
     
-print("Please pick a model based on computer speed starting at 0 for low ram to 3 being high ram")
-user_input_model_level = int(input("Model Ram Level: "))
+print("Please choose a text model based on your preferred level of system memory. Level 0 represents 16GB of system memory, while Level 3 represents 64GB of system memory and 16GB of VRAM. Which level would you like to select?")
+user_input_model_level = int(input("Model Ram Level: (0 <-> 3)"))
 
 if user_input_model_level > 3:
     print("Error level higher than 3 seen, setting level to 3")
