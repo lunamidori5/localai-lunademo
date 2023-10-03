@@ -55,7 +55,7 @@ if user_input_type != "yes":
     else:  # for Linux and macOS
         os.system('echo "sudo docker-compose down" > docker-setup.sh')
         os.system('echo "sudo docker-compose up" >> docker-setup.sh')
-        os.system('chmod 777 docker-setup.sh')
+        os.system('chmod +x docker-setup.sh')
         os.system('gnome-terminal -- ./docker-setup.sh')
 
 if os.name == 'nt':  # for Windows
@@ -112,7 +112,6 @@ if user_input_type != "yes":
     print("We will need to wait a few more moments before we can move on!")
     print("Waiting for a for more moments so that the docker can get fully set up and ready...")
     time.sleep(300)
-    os.rename("docker-compose.yaml", current_file_docker)
 
 if os.name == 'nt':  # for Windows
     os.system('title Waiting on LocalAI docker')
@@ -123,6 +122,7 @@ else:  # for Linux and macOS
 print("If LocalAI is done building in the docker hit enter (DO NOT HIT ENTER IF YOU DO NOT SEE THE READY SCREEN IN LOCALAI)")
 user_input_type = str(input(""))
 os.system('docker-compose restart')
+os.rename("docker-compose.yaml", current_file_docker)
 
 if os.name == 'nt':  # for Windows
     os.system('title Welcome to LocalAI - Chat Demo')
