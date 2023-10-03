@@ -66,34 +66,34 @@ else:  # for Linux and macOS
     print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up'")
     time.sleep(25)
     
-print("Please choose a text model based on your preferred level of system memory. Level 0 represents 16GB of system memory, while Level 3 represents 64GB of system memory and 16GB of VRAM. Which level would you like to select?")
+print("Please choose a text model based on your preferred level of system memory. Level 0 represents 4GB of system memory, while Level 3 represents 64GB of system memory and 16GB of VRAM. Which level would you like to select?")
 user_input_model_level = int(input("Model Ram Level: (0 <-> 3)"))
 
 if user_input_model_level > 3:
     print("Error level higher than 3 seen, setting level to 3")
     print("Downloading 30b Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-30B-Uncensored-GGML/resolve/main/WizardLM-30B-Uncensored.ggmlv3.q4_0.bin"
-    current_file = 'WizardLM-30B-Uncensored.ggmlv3.q4_0.bin'
+    file_url = "https://huggingface.co/TheBloke/WizardLM-30B-uncensored-GGUF/resolve/main/WizardLM-30B-Uncensored.Q5_0.gguf"
+    current_file = 'WizardLM-30B-Uncensored.Q5_0.gguf'
 
 if user_input_model_level == 3:
     print("Downloading 30b Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-30B-Uncensored-GGML/resolve/main/WizardLM-30B-Uncensored.ggmlv3.q4_0.bin"
-    current_file = 'WizardLM-30B-Uncensored.ggmlv3.q4_0.bin'
+    file_url = "https://huggingface.co/TheBloke/WizardLM-30B-uncensored-GGUF/resolve/main/WizardLM-30B-Uncensored.Q5_0.gguf"
+    current_file = 'WizardLM-30B-Uncensored.Q5_0.gguf'
     
 if user_input_model_level == 2:
     print("Downloading 13b Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-13B-V1.2-GGML/resolve/main/wizardlm-13b-v1.2.ggmlv3.q4_K_M.bin"
-    current_file = 'wizardlm-13b-v1.2.ggmlv3.q4_K_M.bin'
+    file_url = "https://huggingface.co/TheBloke/WizardLM-13B-Uncensored-GGUF/resolve/main/WizardLM-13B-Uncensored.Q6_K.gguf"
+    current_file = 'WizardLM-13B-Uncensored.Q6_K.gguf'
     
 if user_input_model_level == 1:
     print("Downloading 13b Low Ram Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-13B-V1.2-GGML/resolve/main/wizardlm-13b-v1.2.ggmlv3.q2_K.bin"
-    current_file = 'wizardlm-13b-v1.2.ggmlv3.q2_K.bin'
+    file_url = "https://huggingface.co/TheBloke/WizardLM-13B-Uncensored-GGUF/resolve/main/WizardLM-13B-Uncensored.Q2_K.gguf"
+    current_file = 'WizardLM-13B-Uncensored.Q2_K.gguf'
     
 if user_input_model_level == 0:
     print("Downloading 7b Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-7B-uncensored-GGML/resolve/main/WizardLM-7B-uncensored.ggmlv3.q2_K.bin"
-    current_file = 'WizardLM-7B-uncensored.ggmlv3.q2_K.bin'
+    file_url = "https://huggingface.co/TheBloke/WizardLM-7B-uncensored-GGUF/resolve/main/WizardLM-7B-uncensored.Q2_K.gguf"
+    current_file = 'WizardLM-7B-uncensored.Q2_K.gguf'
     
 file_path = os.path.join(folder_path, file_name)
 
