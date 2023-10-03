@@ -4,7 +4,7 @@ import openai
 import random
 import urllib.request
 
-openai.api_base = "http://localhost:8080/v1"
+openai.api_base = "http://localhost:9095/v1"
 openai.api_key = "sx-xxx"
 OPENAI_API_KEY = "sx-xxx"
 os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
