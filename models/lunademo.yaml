@@ -1,6 +1,5 @@
-backend: llama-stable
+backend: llama
 context_size: 2000
-batch: 512
 name: lunademo
 parameters:
   model: lunademo.bin
