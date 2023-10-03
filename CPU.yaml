@@ -6,7 +6,7 @@ services:
     tty: true # enable colorized logs
     restart: always # should this be on-failure ?
     ports:
-      - 8080:8080
+      - 9095:8080
     env_file:
       - .env
     volumes:
