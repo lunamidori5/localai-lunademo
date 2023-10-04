@@ -4,5 +4,7 @@ python3 -m venv pythonlocalai
 source pythonlocalai/bin/activate
 
 echo "Installing Python Imports for LocalAi Demo Bot"
-pip install openai langchain request
+pip install openai 
+pip install langchain
+pip install request
 python main.py

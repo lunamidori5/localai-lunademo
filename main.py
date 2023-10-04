@@ -142,7 +142,7 @@ else:
         print(str(response))
         response.raise_for_status()
         print(str("Please wait for a few moments as LocalAi downloads and sets up the model..."))
-        time.sleep(50)
+        time.sleep(240)
 
 if os.name == 'nt':  # for Windows
     os.system('title Welcome to LocalAI - Chat Demo')
