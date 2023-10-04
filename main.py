@@ -4,10 +4,10 @@ import openai
 import random
 import urllib.request
 
-openai.api_base = "http://localhost:9095/v1"
 openai.api_key = "sx-xxx"
 OPENAI_API_KEY = "sx-xxx"
 os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
+model = "lunademo"
 file_url = "https://huggingface.co/TheBloke/WizardLM-13B-V1.2-GGML/resolve/main/wizardlm-13b-v1.2.ggmlv3.q2_K.bin"
 file_name = "lunademo.bin"
 new_file = 'lunademo.bin'
@@ -25,11 +25,59 @@ user_input_type = user_input_type.lower()
 
 if user_input_type != "yes":
     if os.name == 'nt':  # for Windows
+        os.system('title Downloading Model')
+        os.system('cls')
+    else:  # for Linux and macOS
+        os.system('clear')
+        print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up'")
+        time.sleep(25)
+    
+    print("Please choose a text model based on your preferred level of system memory. Level 0 represents 4GB of system memory, while Level 3 represents 64GB of system memory and 16GB of VRAM. Which level would you like to select?")
+    user_input_model_level = int(input("Model Ram Level: (0 <-> 3)"))
+
+    if user_input_model_level > 3:
+        print("Error level higher than 3 seen, setting level to 3")
+        print("Downloading 30b Model...")
+        file_url = "https://huggingface.co/TheBloke/WizardLM-30B-uncensored-GGUF/resolve/main/WizardLM-30B-Uncensored.Q5_0.gguf"
+        current_file = 'WizardLM-30B-Uncensored.Q5_0.gguf'
+
+    if user_input_model_level == 3:
+        print("Downloading 30b Model...")
+        file_url = "https://huggingface.co/TheBloke/WizardLM-30B-uncensored-GGUF/resolve/main/WizardLM-30B-Uncensored.Q5_0.gguf"
+        current_file = 'WizardLM-30B-Uncensored.Q5_0.gguf'
+        
+    if user_input_model_level == 2:
+        print("Downloading 13b Model...")
+        file_url = "https://huggingface.co/TheBloke/WizardLM-13B-Uncensored-GGUF/resolve/main/WizardLM-13B-Uncensored.Q6_K.gguf"
+        current_file = 'WizardLM-13B-Uncensored.Q6_K.gguf'
+        
+    if user_input_model_level == 1:
+        print("Downloading 13b Low Ram Model...")
+        file_url = "https://huggingface.co/TheBloke/WizardLM-13B-Uncensored-GGUF/resolve/main/WizardLM-13B-Uncensored.Q2_K.gguf"
+        current_file = 'WizardLM-13B-Uncensored.Q2_K.gguf'
+        
+    if user_input_model_level == 0:
+        print("Downloading 7b Model...")
+        file_url = "https://huggingface.co/TheBloke/WizardLM-7B-uncensored-GGUF/resolve/main/WizardLM-7B-uncensored.Q2_K.gguf"
+        current_file = 'WizardLM-7B-uncensored.Q2_K.gguf'
+        
+    file_path = os.path.join(folder_path, file_name)
+
+    if os.path.isfile(file_path):
+        print("File already exists in the folder.")
+    else:
+        print("File does not exist in the folder. Proceed with downloading.")
+        file_path = os.path.join(folder_path, os.path.basename(new_file))
+        urllib.request.urlretrieve(file_url, file_path)
+        time.sleep(1.2)
+
+    if os.name == 'nt':  # for Windows
         os.system('title Setting up Docker-Compose File')
         os.system('cls')
     else:  # for Linux and macOS
         os.system('clear')
     
+    print("Alright lets setup a docker-compose using port 9095, to edit the config please edit the files `gpu.yaml` or `cpu.yaml` before you type in here.")
     print("Would you like to run this docker with GPU or CPU? (GPU is CUDA only for now)")
     user_input_type = str(input("CPU or GPU: "))
     user_input_type = user_input_type.lower()
@@ -37,15 +85,19 @@ if user_input_type != "yes":
     if user_input_type == "gpu":
         print("Alright setting up docker-compose with GPU - Cuda")
         current_file_docker = 'GPU.yaml'
+        openai_port = 9095
     elif user_input_type == "cuda":
         print("Alright setting up docker-compose with GPU - Cuda")
         current_file_docker = 'GPU.yaml'
+        openai_port = 9095
     elif user_input_type == "cpu":
         print("Alright setting up docker-compose with CPU")
         current_file_docker = 'CPU.yaml'
+        openai_port = 9095
     else:
         print("Fallingback to setting up docker-compose with CPU")
         current_file_docker = 'CPU.yaml'
+        openai_port = 9095
 
     os.rename(current_file_docker, "docker-compose.yaml")
     if os.name == 'nt':  # for Windows
@@ -58,71 +110,30 @@ if user_input_type != "yes":
         os.system('chmod +x docker-setup.sh')
         os.system('gnome-terminal -- ./docker-setup.sh')
 
-if os.name == 'nt':  # for Windows
-    os.system('title Downloading Model')
-    os.system('cls')
-else:  # for Linux and macOS
-    os.system('clear')
-    print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up'")
-    time.sleep(25)
-    
-print("Please choose a text model based on your preferred level of system memory. Level 0 represents 4GB of system memory, while Level 3 represents 64GB of system memory and 16GB of VRAM. Which level would you like to select?")
-user_input_model_level = int(input("Model Ram Level: (0 <-> 3)"))
-
-if user_input_model_level > 3:
-    print("Error level higher than 3 seen, setting level to 3")
-    print("Downloading 30b Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-30B-uncensored-GGUF/resolve/main/WizardLM-30B-Uncensored.Q5_0.gguf"
-    current_file = 'WizardLM-30B-Uncensored.Q5_0.gguf'
-
-if user_input_model_level == 3:
-    print("Downloading 30b Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-30B-uncensored-GGUF/resolve/main/WizardLM-30B-Uncensored.Q5_0.gguf"
-    current_file = 'WizardLM-30B-Uncensored.Q5_0.gguf'
-    
-if user_input_model_level == 2:
-    print("Downloading 13b Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-13B-Uncensored-GGUF/resolve/main/WizardLM-13B-Uncensored.Q6_K.gguf"
-    current_file = 'WizardLM-13B-Uncensored.Q6_K.gguf'
-    
-if user_input_model_level == 1:
-    print("Downloading 13b Low Ram Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-13B-Uncensored-GGUF/resolve/main/WizardLM-13B-Uncensored.Q2_K.gguf"
-    current_file = 'WizardLM-13B-Uncensored.Q2_K.gguf'
-    
-if user_input_model_level == 0:
-    print("Downloading 7b Model...")
-    file_url = "https://huggingface.co/TheBloke/WizardLM-7B-uncensored-GGUF/resolve/main/WizardLM-7B-uncensored.Q2_K.gguf"
-    current_file = 'WizardLM-7B-uncensored.Q2_K.gguf'
-    
-file_path = os.path.join(folder_path, file_name)
-
-if os.path.isfile(file_path):
-    print("File already exists in the folder.")
-else:
-    print("File does not exist in the folder. Proceed with downloading.")
-    #file_path = os.path.join(folder_path, os.path.basename(file_url))
-    file_path = os.path.join(folder_path, os.path.basename(new_file))
-    urllib.request.urlretrieve(file_url, file_path)
-    time.sleep(1.2)
-    #os.rename(current_file, new_file)
-
-if user_input_type != "yes":
     print("Alright, I opened a new window that is setting up the docker-compose right now.")
     print("We will need to wait a few more moments before we can move on!")
     print("Waiting for a for more moments so that the docker can get fully set up and ready...")
-    time.sleep(300)
+    time.sleep(600)
 
-if os.name == 'nt':  # for Windows
-    os.system('title Waiting on LocalAI docker')
-    os.system('cls')
-else:  # for Linux and macOS
-    os.system('clear')
+    if os.name == 'nt':  # for Windows
+        os.system('title Waiting on LocalAI docker')
+        os.system('cls')
+    else:  # for Linux and macOS
+        os.system('clear')
+    os.rename("docker-compose.yaml", current_file_docker)
+else:
+    if os.name == 'nt':  # for Windows
+        os.system('Local AI Info')
+        os.system('cls')
+    else:  # for Linux and macOS
+        os.system('clear')
 
-print("If LocalAI is done building in the docker hit enter (DO NOT HIT ENTER IF YOU DO NOT SEE THE READY SCREEN IN LOCALAI)")
-user_input_type = str(input(""))
-os.system('docker-compose restart')
-os.rename("docker-compose.yaml", current_file_docker)
+    openai_port = int(input("What port is LocalAI running on?: "))
+    model = str(input("What model would you like to use? (enter `lunademo` to have this program do a, `best guess` install): "))
+
+    if model == "lunademo":
+        curl_command = "curl --location 'http://localhost:" + openai_port + "/models/apply' --header 'Content-Type: application/json' --data-raw '{\n    \"id\": \"TheBloke/Luna-AI-Llama2-Uncensored-GGML/luna-ai-llama2-uncensored.ggmlv3.q5_K_M.bin\",\n    \"name\": \"lunademo\"\n}'"
+        os.system(curl_command)
 
 if os.name == 'nt':  # for Windows
     os.system('title Welcome to LocalAI - Chat Demo')
@@ -145,13 +156,14 @@ while True:
     loop_number = 0
     completion_text = ''
     collected_messages = []
+    openai.api_base = f"http://localhost:{openai_port}/v1"
     
     message_gpt = [{"role": "system", "content": system_text}, *session_inside,
                     {"role": "user", "content": f"Type a short reply to this question: {user_input}:"}, ]
     messages = [{"role": msg["role"], "content": msg["content"]} for msg in message_gpt]
 
     completion2 = openai.ChatCompletion.create(
-                    model="lunademo",
+                    model=model,
                     frequency_penalty=0.5,
                     presence_penalty=0.6,
                     repeat_penalty=0.5,
