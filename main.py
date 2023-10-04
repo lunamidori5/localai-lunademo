@@ -2,6 +2,7 @@ import os
 import time
 import openai
 import random
+import requests
 import urllib.request
 
 openai.api_key = "sx-xxx"
@@ -132,8 +133,13 @@ else:
     model = str(input("What model would you like to use? (enter `lunademo` to have this program do a, `best guess` install): "))
 
     if model == "lunademo":
-        curl_command = "curl --location 'http://localhost:" + str(openai_port) + "/models/apply' --header 'Content-Type: application/json' --data-raw '{\n    \"id\": \"TheBloke/Luna-AI-Llama2-Uncensored-GGML/luna-ai-llama2-uncensored.ggmlv3.q5_K_M.bin\",\n    \"name\": \"lunademo\"\n}'"
-        os.system(curl_command)
+
+        url = f"http://localhost:{str(openai_port)}/models/apply"
+        headers = {"Content-Type": "application/json"}
+        data = {"id": "TheBloke/Luna-AI-Llama2-Uncensored-GGML/luna-ai-llama2-uncensored.ggmlv3.q5_K_M.bin", "name": "lunademo"}
+
+        response = requests.post(url, headers=headers, json=data)
+        response.raise_for_status()
 
 if os.name == 'nt':  # for Windows
     os.system('title Welcome to LocalAI - Chat Demo')
@@ -156,7 +162,7 @@ while True:
     loop_number = 0
     completion_text = ''
     collected_messages = []
-    openai.api_base = f"http://localhost:{openai_port}/v1"
+    openai.api_base = f"http://localhost:{str(openai_port)}/v1"
     
     message_gpt = [{"role": "system", "content": system_text}, *session_inside,
                     {"role": "user", "content": f"Type a short reply to this question: {user_input}:"}, ]
