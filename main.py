@@ -20,7 +20,7 @@ sudo = ""
 
 if os.path.exists(f"already_setup.txt"):
     print("Looks like everything is already setup, lets chat!")
-    
+
     if os.name == 'nt':  # for Windows
         os.system('title Docker')
         os.system('cls')
@@ -33,9 +33,9 @@ if os.path.exists(f"already_setup.txt"):
             os.system('sudo nvidia-ctk runtime configure --runtime=docker')
             os.system('sudo systemctl restart docker')
 
-        print("Do you have the LocalAI docker already set up?")
-        user_input_type = str(input("Yes or No: "))
-        user_input_type = user_input_type.lower()
+    print("Do you have the LocalAI docker already set up?")
+    user_input_type = str(input("Yes or No: "))
+    user_input_type = user_input_type.lower()
 
     if user_input_type != "yes":
         if os.name == 'nt':  # for Windows
