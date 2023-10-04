@@ -40,7 +40,6 @@ else:
             os.system('cls')
         else:  # for Linux and macOS
             os.system('clear')
-            time.sleep(25)
         
         print("Please choose a text model based on your preferred level of system memory. Level 0 represents 4GB of system memory, while Level 3 represents 64GB of system memory and 16GB of VRAM. Which level would you like to select?")
         user_input_model_level = int(input("Model Ram Level: (0 <-> 3) "))
@@ -108,7 +107,8 @@ else:
         try:
             docker = DockerClient(compose_files=["./docker-compose.yaml"])
         except Exception as e:
-            print(f"Error occurred while initializing DockerClient: {e}")
+            print(f"Error Please run the Setup_Linux.sh file as root")
+            exit(404)
         
         try:
             docker.compose.down(remove_orphans=True)
