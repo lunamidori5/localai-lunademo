@@ -25,6 +25,7 @@ else:
         os.system('title Docker')
         os.system('cls')
     else:  # for Linux and macOS
+        os.system('clear')
         print("It seems as you are on Linux, does your system use ``sudo``? If so please type in the word ``sudo``, If not, please hit enter: ")
         sudo = str(input("Please enter text: "))
         os.system('clear')
@@ -42,7 +43,7 @@ else:
             time.sleep(25)
         
         print("Please choose a text model based on your preferred level of system memory. Level 0 represents 4GB of system memory, while Level 3 represents 64GB of system memory and 16GB of VRAM. Which level would you like to select?")
-        user_input_model_level = int(input("Model Ram Level: (0 <-> 3)"))
+        user_input_model_level = int(input("Model Ram Level: (0 <-> 3) "))
 
         if user_input_model_level > 3:
             print("Error level higher than 3 seen, setting level to 3")
@@ -101,7 +102,7 @@ else:
             print("Fallingback to setting up docker-compose with CPU")
             current_file_docker = 'CPU.yaml'
             openai_port = 9095
-            
+
         os.rename(current_file_docker, "docker-compose.yaml")
         
         try:
