@@ -15,6 +15,7 @@ model = "lunademo"
 file_url = "https://huggingface.co/TheBloke/WizardLM-13B-V1.2-GGML/resolve/main/wizardlm-13b-v1.2.ggmlv3.q2_K.bin"
 file_name = "lunademo.bin"
 new_file = 'lunademo.bin'
+openai_port = 9095
 folder_path = "models"
 sudo = ""
 
@@ -161,8 +162,10 @@ else:
 
 if os.name == 'nt':  # for Windows
     os.system('title Welcome to LocalAI - Chat Demo')
+    openai_port = int(input("What port is LocalAI running on?: "))
     os.system('cls')
 else:  # for Linux and macOS
+    openai_port = int(input("What port is LocalAI running on?: "))
     os.system('clear')
 
 with open("already_setup.txt", "w") as file: 
@@ -188,8 +191,8 @@ while True:
     message_gpt = [{"role": "system", "content": system_text}, *session_inside,
                     {"role": "user", "content": f"Type a short reply to this question: {user_input}:"}, ]
     messages = [{"role": msg["role"], "content": msg["content"]} for msg in message_gpt]
-
-    completion2 = openai.ChatCompletion.create(
+    try:
+        completion2 = openai.ChatCompletion.create(
                     model=model,
                     frequency_penalty=0.5,
                     presence_penalty=0.6,
@@ -200,24 +203,27 @@ while True:
                     stream=True,
                     seed=random.randint(100000, 999999),
                     top_p=0.75
-    )
-    for chunk in completion2:
-        loop_number = loop_number + 1
-        if 'delta' in chunk['choices'][0] and chunk['choices'][0]['delta']:
-            event_text = chunk['choices'][0]['delta']
-            collected_messages.append(event_text)
-        else:
-            break  # exit the loop if delta is empty
-        if loop_number > 2:
-            sudo_message = ''.join([m.get('content', '') for m in collected_messages])
-            if os.name == 'nt':  # for Windows
-                os.system('cls')
-            else:  # for Linux and macOS
-                os.system('clear')
-            print("Streaming message: " + str(sudo_message))
-            loop_number = 0
-    full_reply_content = ''.join([m.get('content', '') for m in collected_messages])
-    response = full_reply_content
+        )
+        for chunk in completion2:
+            loop_number = loop_number + 1
+            if 'delta' in chunk['choices'][0] and chunk['choices'][0]['delta']:
+                event_text = chunk['choices'][0]['delta']
+                collected_messages.append(event_text)
+            else:
+                break  # exit the loop if delta is empty
+            if loop_number > 2:
+                sudo_message = ''.join([m.get('content', '') for m in collected_messages])
+                if os.name == 'nt':  # for Windows
+                    os.system('cls')
+                else:  # for Linux and macOS
+                    os.system('clear')
+                print("Streaming message: " + str(sudo_message))
+                loop_number = 0
+        full_reply_content = ''.join([m.get('content', '') for m in collected_messages])
+        response = full_reply_content
+    except Exception as e:
+        print(f"Error occurred while running docker-compose up: {e}")
+        response = "Localai seems to have bugged or crashed please try again."
     
     session_inside.append({"role": "user", "content": f"(user) says {user_input}"})
     session_inside.append({"role": "assistant", "content": f"{response}"})
