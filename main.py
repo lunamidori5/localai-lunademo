@@ -101,18 +101,28 @@ else:
             print("Fallingback to setting up docker-compose with CPU")
             current_file_docker = 'CPU.yaml'
             openai_port = 9095
-
+            
         os.rename(current_file_docker, "docker-compose.yaml")
-        docker = DockerClient(compose_files=["./docker-compose.yaml"])
-        docker.compose.down(remove_orphans=True)
-        docker.compose.up(build=False, detach=True, no_build=False, remove_orphans=True, color=True, log_prefix=True, start=True, pull="always")
+        
+        try:
+            docker = DockerClient(compose_files=["./docker-compose.yaml"])
+        except Exception as e:
+            print(f"Error occurred while initializing DockerClient: {e}")
+        
+        try:
+            docker.compose.down(remove_orphans=True)
+        except Exception as e:
+            print(f"Error occurred while running docker-compose down: {e}")
+        
+        try:
+            docker.compose.up(build=False, detach=True, no_build=False, remove_orphans=True, color=True, log_prefix=True, start=True, pull="always")
+        except Exception as e:
+            print(f"Error occurred while running docker-compose up: {e}")
 
         if os.name == 'nt':  # for Windows
             os.system('title Setting up Docker-Compose File')
-        else:  # for Linux and macOS
-            print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up' or 'docker-compose up'")
 
-        print("Alright, I opened a new window that is setting up the docker-compose right now.")
+        print("Alright, I pinged docker compose to setup the docker.")
         print("We will need to wait a few more moments before we can move on!")
         print("Waiting for a for more moments so that the docker can get fully set up and ready...")
         time.sleep(600)
