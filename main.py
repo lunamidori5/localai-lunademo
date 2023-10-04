@@ -29,7 +29,6 @@ if user_input_type != "yes":
         os.system('cls')
     else:  # for Linux and macOS
         os.system('clear')
-        print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up'")
         time.sleep(25)
     
     print("Please choose a text model based on your preferred level of system memory. Level 0 represents 4GB of system memory, while Level 3 represents 64GB of system memory and 16GB of VRAM. Which level would you like to select?")
@@ -76,6 +75,7 @@ if user_input_type != "yes":
         os.system('cls')
     else:  # for Linux and macOS
         os.system('clear')
+        print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up'")
     
     print("Alright lets setup a docker-compose using port 9095, to edit the config please edit the files `gpu.yaml` or `cpu.yaml` before you type in here.")
     print("Would you like to run this docker with GPU or CPU? (GPU is CUDA only for now)")
@@ -132,7 +132,7 @@ else:
     model = str(input("What model would you like to use? (enter `lunademo` to have this program do a, `best guess` install): "))
 
     if model == "lunademo":
-        curl_command = "curl --location 'http://localhost:" + openai_port + "/models/apply' --header 'Content-Type: application/json' --data-raw '{\n    \"id\": \"TheBloke/Luna-AI-Llama2-Uncensored-GGML/luna-ai-llama2-uncensored.ggmlv3.q5_K_M.bin\",\n    \"name\": \"lunademo\"\n}'"
+        curl_command = "curl --location 'http://localhost:" + str(openai_port) + "/models/apply' --header 'Content-Type: application/json' --data-raw '{\n    \"id\": \"TheBloke/Luna-AI-Llama2-Uncensored-GGML/luna-ai-llama2-uncensored.ggmlv3.q5_K_M.bin\",\n    \"name\": \"lunademo\"\n}'"
         os.system(curl_command)
 
 if os.name == 'nt':  # for Windows
