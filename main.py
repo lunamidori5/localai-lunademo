@@ -21,6 +21,7 @@ sudo = ""
 if os.path.exists(f"already_setup.txt"):
     print("Looks like everything is already setup, lets chat!")
 
+else:
     if os.name == 'nt':  # for Windows
         os.system('title Docker')
         os.system('cls')
