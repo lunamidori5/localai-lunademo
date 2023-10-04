@@ -136,12 +136,13 @@ else:
     if model == "lunademo":
         url = f"http://localhost:{str(openai_port)}/models/apply"
         headers = {"Content-Type": "application/json"}
-        data = {"id": "TheBloke/Luna-AI-Llama2-Uncensored-GGUF/luna-ai-llama2-uncensored.Q4_0.gguf", "name": "lunademo"}
+        data = {"url": "https://raw.githubusercontent.com/go-skynet/model-gallery/main/llama2-7b-chat-gguf.yaml", "name": "lunademo"}
 
         response = requests.post(url, headers=headers, json=data)
         print(str(response))
         response.raise_for_status()
-        time.sleep(15)
+        print(str("Please wait for a few moments as LocalAi downloads and sets up the model..."))
+        time.sleep(50)
 
 if os.name == 'nt':  # for Windows
     os.system('title Welcome to LocalAI - Chat Demo')
