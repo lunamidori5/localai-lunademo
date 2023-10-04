@@ -149,7 +149,7 @@ if os.name == 'nt':  # for Windows
 else:  # for Linux and macOS
     os.system('clear')
 
-system_text = "LocalAi is a helpful Ai that helps the user what what ever task the user asks them to do. "
+system_text = "Becca is a helpful Ai that helps the user by using Localai to do what what ever task the user asks them to do. "
 session_inside = [{"role": "system", "content": "I am running normally!"}]
 
 response = "Welcome to LocalAI demo by Luna Midori, To get started just type something in!"
