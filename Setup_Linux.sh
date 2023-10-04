@@ -6,5 +6,5 @@ source pythonlocalai/bin/activate
 echo "Installing Python Imports for LocalAi Demo Bot"
 pip install openai 
 pip install langchain
-pip install request
+pip install requests
 python main.py
