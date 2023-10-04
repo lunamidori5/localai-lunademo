@@ -131,9 +131,9 @@ else:
         os.system('clear')
 
     openai_port = int(input("What port is LocalAI running on?: "))
-    model = str(input("What model would you like to use? (enter `lunademo` to have this program do a, `best guess` install): "))
+    model = str(input("What model would you like to use? (enter `xxx` to have this program do a `best guess` install): "))
 
-    if model == "lunademo":
+    if model == "xxx":
         url = f"http://localhost:{str(openai_port)}/models/apply"
         headers = {"Content-Type": "application/json"}
         data = {"url": "https://raw.githubusercontent.com/go-skynet/model-gallery/main/llama2-7b-chat-gguf.yaml", "name": "lunademo"}
