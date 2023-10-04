@@ -5,6 +5,7 @@ services:
     image: quay.io/go-skynet/local-ai:master
     tty: true # enable colorized logs
     restart: always # should this be on-failure ?
+    privileged: true
     ports:
       - 9095:8080
     env_file:

@@ -227,19 +227,25 @@ while True:
     
     session_inside.append({"role": "user", "content": f"(user) says {user_input}"})
     session_inside.append({"role": "assistant", "content": f"{response}"})
+
+    try:
     
-    text_out_unmoded = openai.ChatCompletion.create(
-        model="lunademo",
-        temperature=0,
-        n=1,
-        messages=[
-            {"role": "system",
-             "content": f"I am a AI that summarizes statements. I will share as much details.", },
-            {"role": "user",
-             "content": f"Summarize this memory: {str(session_inside)} "},
-        ],
-        max_tokens=3000
-    )
+        text_out_unmoded = openai.ChatCompletion.create(
+            model="lunademo",
+            temperature=0,
+            n=1,
+            messages=[
+                {"role": "system",
+                "content": f"I am a AI that summarizes statements. I will share as much details.", },
+                {"role": "user",
+                "content": f"Summarize this memory: {str(session_inside)} "},
+            ],
+            max_tokens=3000
+        )
+        
+    except Exception as e:
+        print(f"Error occurred while running docker-compose up: {e}")
+        response = "Localai seems to have bugged or crashed please try again."
 
     with open("chatlog.log", "r") as file:
             existing_content = file.read()

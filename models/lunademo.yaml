@@ -1,5 +1,6 @@
 backend: llama
 context_size: 2000
+gpu_layers: 15
 name: lunademo
 parameters:
   model: lunademo.bin
