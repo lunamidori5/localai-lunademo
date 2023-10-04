@@ -13,11 +13,14 @@ file_url = "https://huggingface.co/TheBloke/WizardLM-13B-V1.2-GGML/resolve/main/
 file_name = "lunademo.bin"
 new_file = 'lunademo.bin'
 folder_path = "models"
+sudo = ""
 
 if os.name == 'nt':  # for Windows
     os.system('title Docker')
     os.system('cls')
 else:  # for Linux and macOS
+    print("It seems as you are on Linux, does your system use ``sudo``? If so please type in the word ``sudo``, If not, please hit enter: ")
+    sudo = str(input("Please enter text: "))
     os.system('clear')
     
 print("Do you have the LocalAI docker already set up?")
@@ -70,13 +73,6 @@ if user_input_type != "yes":
         file_path = os.path.join(folder_path, os.path.basename(new_file))
         urllib.request.urlretrieve(file_url, file_path)
         time.sleep(1.2)
-
-    if os.name == 'nt':  # for Windows
-        os.system('title Setting up Docker-Compose File')
-        os.system('cls')
-    else:  # for Linux and macOS
-        os.system('clear')
-        print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up'")
     
     print("Alright lets setup a docker-compose using port 9095, to edit the config please edit the files `gpu.yaml` or `cpu.yaml` before you type in here.")
     print("Would you like to run this docker with GPU or CPU? (GPU is CUDA only for now)")
@@ -106,10 +102,15 @@ if user_input_type != "yes":
         os.system('docker-compose down --rmi all')
         os.system('start docker-compose up --pull --force-recreate')
     else:  # for Linux and macOS
-        os.system('echo "sudo docker-compose down" > docker-setup.sh')
-        os.system('echo "sudo docker-compose up" >> docker-setup.sh')
+        os.system(f'echo "{sudo} docker-compose down" > docker-setup.sh')
+        os.system(f'echo "{sudo} docker-compose up" >> docker-setup.sh')
         os.system('chmod +x docker-setup.sh')
         os.system('gnome-terminal -- ./docker-setup.sh')
+
+    if os.name == 'nt':  # for Windows
+        os.system('title Setting up Docker-Compose File')
+    else:  # for Linux and macOS
+        print("If the window only poped up for a moment and is not still running. Please open a new command line in and run 'sudo docker-compose up' or 'docker-compose up'")
 
     print("Alright, I opened a new window that is setting up the docker-compose right now.")
     print("We will need to wait a few more moments before we can move on!")
@@ -139,7 +140,9 @@ else:
         data = {"id": "TheBloke/Luna-AI-Llama2-Uncensored-GGML/luna-ai-llama2-uncensored.ggmlv3.q5_K_M.bin", "name": "lunademo"}
 
         response = requests.post(url, headers=headers, json=data)
+        print(str(response))
         response.raise_for_status()
+        time.sleep(15)
 
 if os.name == 'nt':  # for Windows
     os.system('title Welcome to LocalAI - Chat Demo')
@@ -153,7 +156,7 @@ session_inside = [{"role": "system", "content": "I am running normally!"}]
 response = "Welcome to LocalAI demo by Luna Midori, To get started just type something in!"
 
 with open("chatlog.log", "w") as file:
-            file.write(response)
+    file.write(response)
 
 while True:
     print(response)
@@ -187,7 +190,7 @@ while True:
             collected_messages.append(event_text)
         else:
             break  # exit the loop if delta is empty
-        if loop_number > 1:
+        if loop_number > 2:
             sudo_message = ''.join([m.get('content', '') for m in collected_messages])
             if os.name == 'nt':  # for Windows
                 os.system('cls')
