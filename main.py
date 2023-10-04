@@ -20,16 +20,18 @@ sudo = ""
 
 if os.path.exists(f"already_setup.txt"):
     print("Looks like everything is already setup, lets chat!")
-else:
-    if os.name == 'nt':  # for Windows
-        os.system('title Docker')
-        os.system('cls')
-    else:  # for Linux and macOS
-        os.system('clear')
-        print("It seems as you are on Linux, does your system use ``sudo``? If so please type in the word ``sudo``, If not, please hit enter: ")
-        sudo = str(input("Please enter text: "))
-        os.system('clear')
-        
+if os.name == 'nt':  # for Windows
+    os.system('title Docker')
+    os.system('cls')
+    print("Please remember to install CUDA on your host and Docker.")
+else:  # for Linux and macOS
+    os.system('clear')
+    print("Do you want to install CUDA on Docker? (Yes/No): ")
+    install_cuda = str(input("Please enter text: "))
+    if install_cuda.lower() == "yes":
+        os.system('sudo nvidia-ctk runtime configure --runtime=docker')
+        os.system('sudo systemctl restart docker')
+
     print("Do you have the LocalAI docker already set up?")
     user_input_type = str(input("Yes or No: "))
     user_input_type = user_input_type.lower()
