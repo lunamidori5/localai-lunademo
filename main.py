@@ -134,7 +134,6 @@ else:
     model = str(input("What model would you like to use? (enter `lunademo` to have this program do a, `best guess` install): "))
 
     if model == "lunademo":
-
         url = f"http://localhost:{str(openai_port)}/models/apply"
         headers = {"Content-Type": "application/json"}
         data = {"id": "TheBloke/Luna-AI-Llama2-Uncensored-GGUF/luna-ai-llama2-uncensored.Q4_0.gguf", "name": "lunademo"}
