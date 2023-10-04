@@ -5,6 +5,9 @@ import random
 import requests
 import urllib.request
 
+from python_on_whales import docker
+from python_on_whales import DockerClient
+
 openai.api_key = "sx-xxx"
 OPENAI_API_KEY = "sx-xxx"
 os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
@@ -100,15 +103,9 @@ else:
             openai_port = 9095
 
         os.rename(current_file_docker, "docker-compose.yaml")
-        if os.name == 'nt':  # for Windows
-            os.system('title Setting up Windows Docker-Compose File')
-            os.system('docker-compose down --rmi all')
-            os.system('start docker-compose up --pull --force-recreate')
-        else:  # for Linux and macOS
-            os.system(f'echo "{sudo} docker-compose down" > docker-setup.sh')
-            os.system(f'echo "{sudo} docker-compose up" >> docker-setup.sh')
-            os.system('chmod +x docker-setup.sh')
-            os.system('gnome-terminal -- ./docker-setup.sh')
+        docker = DockerClient(compose_files=["./docker-compose.yaml"])
+        docker.compose.down(remove_orphans=True)
+        docker.compose.up(build=False, detach=True, no_build=False, remove_orphans=True, color=True, log_prefix=True, start=True, pull="always")
 
         if os.name == 'nt':  # for Windows
             os.system('title Setting up Docker-Compose File')
