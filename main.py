@@ -137,7 +137,7 @@ else:
 
         url = f"http://localhost:{str(openai_port)}/models/apply"
         headers = {"Content-Type": "application/json"}
-        data = {"id": "TheBloke/Luna-AI-Llama2-Uncensored-GGML/luna-ai-llama2-uncensored.ggmlv3.q5_K_M.bin", "name": "lunademo"}
+        data = {"id": "TheBloke/Luna-AI-Llama2-Uncensored-GGUF/luna-ai-llama2-uncensored.Q4_0.gguf", "name": "lunademo"}
 
         response = requests.post(url, headers=headers, json=data)
         print(str(response))
